@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiệc Liên Hoan Vui Vẻ!</title>
+    <style>
+        /* Hiệu ứng hoạt hình */
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(7deg); }
+        }
+        @keyframes pointing {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        body { 
+            font-family: 'Segoe UI', cursive, sans-serif; 
+            background: #fff9c4; 
+            padding: 20px; 
+        }
+
+        .container { 
+            max-width: 600px; 
+            margin: auto; 
+            background: white; 
+            padding: 30px; 
+            border-radius: 30px; 
+            border: 5px solid #ff4081; 
+            box-shadow: 10px 10px 0px #ff80ab;
+            position: relative;
+        }
+
+        h2 { color: #f50057; text-align: center; font-size: 28px; }
+
+        .decor-img { width: 65px; position: absolute; border-radius: 10px; }
+        .ko1 { top: -25px; left: -25px; animation: wiggle 2s infinite; }
+        .ko2 { top: -25px; right: -25px; animation: pointing 1.5s infinite; }
+
+        .form-group { margin-bottom: 18px; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; color: #3f51b5; }
+        
+        input, select { 
+            width: 100%; padding: 12px; 
+            border: 3px solid #b3e5fc; 
+            border-radius: 15px; 
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        #otherFoodInput { margin-top: 10px; display: none; border-color: #ffb74d; }
+
+        button.submit-btn { 
+            width: 100%; padding: 15px; 
+            background: #4caf50; color: white; 
+            border: none; border-radius: 50px; 
+            cursor: pointer; font-size: 20px; font-weight: bold;
+            box-shadow: 0 5px #388e3c;
+            margin-bottom: 10px;
+        }
+
+        button.clear-all-btn {
+            width: 100%; padding: 10px;
+            background: #757575; color: white;
+            border: none; border-radius: 50px;
+            cursor: pointer; font-size: 14px;
+        }
+
+        /* Bảng danh sách */
+        .result-section { margin-top: 30px; background: #e1f5fe; padding: 15px; border-radius: 20px; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 15px; overflow: hidden; }
+        th, td { padding: 10px; text-align: left; border-bottom: 2px solid #f0f0f0; }
+        th { background: #0288d1; color: white; }
+
+        .delete-btn {
+            background: #ff5252; color: white; border: none;
+            padding: 5px 8px; border-radius: 8px; cursor: pointer; font-size: 11px;
+        }
+
+        .footer-imgs { text-align: center; margin-top: 25px; }
+        .footer-imgs img { width: 80px; margin: 0 10px; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="ko1.jpg" alt="ko1" class="decor-img ko1">
+    <img src="ko2.jpg" alt="ko2" class="decor-img ko2">
+
+    <h2>🎉 ĐI ĂN LIÊN HOAN ĐÊ! 🎉</h2>
+    
+    <form id="partyForm">
+        <div class="form-group">
+            <label>Tên của bạn:</label>
+            <input type="text" id="fullname" placeholder="Tên gì nè..." required>
+        </div>
+
+        <div class="form-group">
+            <label>Lớp nào ta?</label>
+            <input type="text" id="classRoom" placeholder="vd 9a10" required>
+        </div>
+
+        <div class="form-group">
+            <label>Muốn ăn món gì?</label>
+            <select id="foodType" onchange="checkFood(this)">
+                <option value="Lẩu">🍲 Lẩu thái</option>
+                <option value="Nướng">🔥 Đồ nướng</option>
+                <option value="Buffet">🍱 Buffet</option>
+                <option value="khac">✨ Khác...</option>
+            </select>
+            <input type="text" id="otherFoodInput" placeholder="Nhập món bạn thích vào đây...">
+        </div>
+
+        <button type="submit" class="submit-btn">GỬI NGAY! 🚀</button>
+        <button type="button" class="clear-all-btn" onclick="clearAll()">Xóa sạch danh sách 🗑️ chỉ dành cho admin Lượng</button>
+    </form>
+
+    <div class="result-section">
+        <h3>✨ Danh sách đồng bọn ✨</h3>
+        <table id="resultTable">
+            <thead>
+                <tr>
+                    <th>Tên</th>
+                    <th>Lớp</th>
+                    <th>Món</th>
+                    <th>Xóa</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <div class="footer-imgs">
+        <img src="ko3.jpg" alt="ko3" style="animation: wiggle 3s infinite;">
+        <img src="ko4.jpg" alt="ko4" style="animation: pointing 1s infinite;">
+        <img src="ko5.jpg" alt="ko5" style="animation: wiggle 2.5s infinite;">
+    </div>
+</div>
+
+<script>
+    function checkFood(select) {
+        const otherInput = document.getElementById('otherFoodInput');
+        if (select.value === 'khac') {
+            otherInput.style.display = 'block';
+            otherInput.required = true;
+        } else {
+            otherInput.style.display = 'none';
+            otherInput.required = false;
+        }
+    }
+
+    const form = document.getElementById('partyForm');
+    const tableBody = document.querySelector('#resultTable tbody');
+
+    // Hàm hiển thị dữ liệu và thêm nút xóa từng dòng
+    function displayData() {
+        const list = JSON.parse(localStorage.getItem('surveyData')) || [];
+        tableBody.innerHTML = '';
+        list.forEach((item, index) => {
+            const row = `<tr>
+                <td><b>${item.fullname}</b></td>
+                <td>${item.classRoom}</td>
+                <td>${item.food}</td>
+                <td><button class="delete-btn" onclick="deleteItem(${index})">Xóa</button></td>
+            </tr>`;
+            tableBody.innerHTML += row;
+        });
+    }
+
+    // Hàm xóa từng người
+    function deleteItem(index) {
+        if(confirm("Bạn muốn xóa dòng này hả?")) {
+            let list = JSON.parse(localStorage.getItem('surveyData')) || [];
+            list.splice(index, 1);
+            localStorage.setItem('surveyData', JSON.stringify(list));
+            displayData();
+        }
+    }
+
+    // Hàm xóa tất cả
+    function clearAll() {
+        if(confirm("Cẩn thận nha! Bạn định xóa sạch sành sanh danh sách luôn hả?")) {
+            localStorage.removeItem('surveyData');
+            displayData();
+        }
+    }
+
+    displayData();
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+
+        let foodChoice = document.getElementById('foodType').value;
+        if (foodChoice === 'khac') {
+            foodChoice = document.getElementById('otherFoodInput').value;
+        }
+
+        const newData = {
+            fullname: document.getElementById('fullname').value,
+            classRoom: document.getElementById('classRoom').value,
+            food: foodChoice
+        };
+
+        let list = JSON.parse(localStorage.getItem('surveyData')) || [];
+        list.push(newData);
+        localStorage.setItem('surveyData', JSON.stringify(list));
+
+        displayData();
+        alert("Đã thêm " + newData.fullname + " vào danh sách ăn chơi!");
+        form.reset();
+        document.getElementById('otherFoodInput').style.display = 'none';
+    });
+</script>
+
+</body>
+</html>
