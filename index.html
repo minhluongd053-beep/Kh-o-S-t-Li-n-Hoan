@@ -90,29 +90,29 @@
 
     <h2>🎉 ĐI ĂN LIÊN HOAN ĐÊ! 🎉</h2>
     
-    <form id="partyForm">
+    <form id="partyForm" action="https://formspree.io/f/mjgjenqw" method="POST">
         <div class="form-group">
             <label>Tên của bạn:</label>
-            <input type="text" id="fullname" placeholder="Tên gì nè..." required>
+            <input type="text" id="fullname" name="Họ_Tên" placeholder="Tên gì nè..." required>
         </div>
 
         <div class="form-group">
             <label>Lớp nào ta?</label>
-            <input type="text" id="classRoom" placeholder="vd 9a10" required>
+            <input type="text" id="classRoom" name="Lớp" placeholder="vd 9a10" required>
         </div>
 
         <div class="form-group">
             <label>Muốn ăn món gì?</label>
-            <select id="foodType" onchange="checkFood(this)">
+            <select id="foodType" name="Món_Ăn_Chọn" onchange="checkFood(this)">
                 <option value="Lẩu">🍲 Lẩu thái</option>
                 <option value="Nướng">🔥 Đồ nướng</option>
                 <option value="Buffet">🍱 Buffet</option>
                 <option value="khac">✨ Khác...</option>
             </select>
-            <input type="text" id="otherFoodInput" placeholder="Nhập món bạn thích vào đây...">
+            <input type="text" id="otherFoodInput" name="Món_Ăn_Khác" placeholder="Nhập món bạn thích vào đây...">
         </div>
 
-        <button type="submit" class="submit-btn">GỬI NGAY! 🚀</button>
+        <button type="submit" class="submit-btn" id="submitBtn">GỬI NGAY! 🚀</button>
         <button type="button" class="clear-all-btn" onclick="clearAll()">Xóa sạch danh sách 🗑️ chỉ dành cho admin Lượng</button>
     </form>
 
@@ -153,7 +153,6 @@
     const form = document.getElementById('partyForm');
     const tableBody = document.querySelector('#resultTable tbody');
 
-    // Hàm hiển thị dữ liệu và thêm nút xóa từng dòng
     function displayData() {
         const list = JSON.parse(localStorage.getItem('surveyData')) || [];
         tableBody.innerHTML = '';
@@ -168,7 +167,6 @@
         });
     }
 
-    // Hàm xóa từng người
     function deleteItem(index) {
         if(confirm("Bạn muốn xóa dòng này hả?")) {
             let list = JSON.parse(localStorage.getItem('surveyData')) || [];
@@ -178,7 +176,6 @@
         }
     }
 
-    // Hàm xóa tất cả
     function clearAll() {
         if(confirm("Cẩn thận nha! Bạn định xóa sạch sành sanh danh sách luôn hả?")) {
             localStorage.removeItem('surveyData');
@@ -188,9 +185,9 @@
 
     displayData();
 
-    form.addEventListener('submit', e => {
-        e.preventDefault();
-
+    // Xử lý khi nhấn Submit
+    form.addEventListener('submit', function(e) {
+        // Lưu dữ liệu vào LocalStorage trước khi form gửi đi
         let foodChoice = document.getElementById('foodType').value;
         if (foodChoice === 'khac') {
             foodChoice = document.getElementById('otherFoodInput').value;
@@ -205,11 +202,8 @@
         let list = JSON.parse(localStorage.getItem('surveyData')) || [];
         list.push(newData);
         localStorage.setItem('surveyData', JSON.stringify(list));
-
-        displayData();
-        alert("Đã thêm " + newData.fullname + " vào danh sách ăn chơi!");
-        form.reset();
-        document.getElementById('otherFoodInput').style.display = 'none';
+        
+        // Không dùng e.preventDefault() để Formspree tự động xử lý việc gửi mail và chuyển trang
     });
 </script>
 
