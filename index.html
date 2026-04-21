@@ -5,79 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tiệc Liên Hoan Vui Vẻ!</title>
     <style>
-        /* Hiệu ứng hoạt hình */
-        @keyframes wiggle {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(7deg); }
-        }
-        @keyframes pointing {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
-        }
-
-        body { 
-            font-family: 'Segoe UI', cursive, sans-serif; 
-            background: #fff9c4; 
-            padding: 20px; 
-        }
-
-        .container { 
-            max-width: 600px; 
-            margin: auto; 
-            background: white; 
-            padding: 30px; 
-            border-radius: 30px; 
-            border: 5px solid #ff4081; 
-            box-shadow: 10px 10px 0px #ff80ab;
-            position: relative;
-        }
-
-        h2 { color: #f50057; text-align: center; font-size: 28px; }
-
+        @keyframes wiggle { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(7deg); } }
+        @keyframes pointing { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        body { font-family: 'Segoe UI', cursive, sans-serif; background: #fff9c4; padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 30px; border: 5px solid #ff4081; box-shadow: 10px 10px 0px #ff80ab; position: relative; }
+        h2 { color: #f50057; text-align: center; font-size: 28px; margin-bottom: 20px; }
         .decor-img { width: 65px; position: absolute; border-radius: 10px; }
         .ko1 { top: -25px; left: -25px; animation: wiggle 2s infinite; }
         .ko2 { top: -25px; right: -25px; animation: pointing 1.5s infinite; }
-
         .form-group { margin-bottom: 18px; }
         label { display: block; font-weight: bold; margin-bottom: 8px; color: #3f51b5; }
-        
-        input, select { 
-            width: 100%; padding: 12px; 
-            border: 3px solid #b3e5fc; 
-            border-radius: 15px; 
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-
+        input, select, textarea { width: 100%; padding: 12px; border: 3px solid #b3e5fc; border-radius: 15px; box-sizing: border-box; font-size: 16px; font-family: inherit; }
+        textarea { height: 80px; resize: none; }
         #otherFoodInput { margin-top: 10px; display: none; border-color: #ffb74d; }
-
-        button.submit-btn { 
-            width: 100%; padding: 15px; 
-            background: #4caf50; color: white; 
-            border: none; border-radius: 50px; 
-            cursor: pointer; font-size: 20px; font-weight: bold;
-            box-shadow: 0 5px #388e3c;
-            margin-bottom: 10px;
-        }
-
-        button.clear-all-btn {
-            width: 100%; padding: 10px;
-            background: #757575; color: white;
-            border: none; border-radius: 50px;
-            cursor: pointer; font-size: 14px;
-        }
-
-        /* Bảng danh sách */
+        button.submit-btn { width: 100%; padding: 15px; background: #4caf50; color: white; border: none; border-radius: 50px; cursor: pointer; font-size: 20px; font-weight: bold; box-shadow: 0 5px #388e3c; margin-top: 10px; }
+        button.clear-all-btn { width: 100%; padding: 10px; background: #757575; color: white; border: none; border-radius: 50px; cursor: pointer; font-size: 14px; margin-top: 10px; }
         .result-section { margin-top: 30px; background: #e1f5fe; padding: 15px; border-radius: 20px; }
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 15px; overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 15px; overflow: hidden; font-size: 14px; }
         th, td { padding: 10px; text-align: left; border-bottom: 2px solid #f0f0f0; }
         th { background: #0288d1; color: white; }
-
-        .delete-btn {
-            background: #ff5252; color: white; border: none;
-            padding: 5px 8px; border-radius: 8px; cursor: pointer; font-size: 11px;
-        }
-
+        .delete-btn { background: #ff5252; color: white; border: none; padding: 5px 8px; border-radius: 8px; cursor: pointer; }
         .footer-imgs { text-align: center; margin-top: 25px; }
         .footer-imgs img { width: 80px; margin: 0 10px; border-radius: 10px; }
     </style>
@@ -88,36 +35,56 @@
     <img src="ko1.jpg" alt="ko1" class="decor-img ko1">
     <img src="ko2.jpg" alt="ko2" class="decor-img ko2">
 
-    <h2>🎉 ĐI ĂN LIÊN HOAN ĐÊ! 🎉</h2>
+    <h2>🎉 LIÊN HOAN THÔI CÁC BẠN ƠI! 🎉</h2>
     
     <form id="partyForm" action="https://formspree.io/f/mjgjenqw" method="POST">
         <div class="form-group">
             <label>Tên của bạn:</label>
-            <input type="text" id="fullname" name="Họ_Tên" placeholder="Tên gì nè..." required>
+            <input type="text" name="Ho_Ten" id="fullname" placeholder="Tên gì nè..." required>
         </div>
 
         <div class="form-group">
-            <label>Lớp nào ta?</label>
-            <input type="text" id="classRoom" name="Lớp" placeholder="vd 9a10" required>
+            <label>Lớp:</label>
+            <input type="text" name="Lop" id="classRoom" placeholder="Ví dụ: 9A10" required>
         </div>
 
         <div class="form-group">
-            <label>Muốn ăn món gì?</label>
-            <select id="foodType" name="Món_Ăn_Chọn" onchange="checkFood(this)">
+            <label>Địa điểm tổ chức ở đâu?</label>
+            <select name="Dia_Diem" id="location">
+                <option value="Tai_Lop">🏫 Ăn tại lớp cho ấm cúng</option>
+                <option value="Ra_Quan">🛵 Kéo nhau ra quán cho xôm</option>
+                <option value="Chua_Biet">❓ Sao cũng được, chiều cả lớp</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Chốt món gì đây?</label>
+            <select id="foodType" name="Mon_An_Chon" onchange="checkFood(this)">
                 <option value="Lẩu">🍲 Lẩu thái</option>
                 <option value="Nướng">🔥 Đồ nướng</option>
                 <option value="Buffet">🍱 Buffet</option>
+                <option value="Ga_Ran">🍗 Gà rán / Pizza</option>
                 <option value="khac">✨ Khác...</option>
             </select>
-            <input type="text" id="otherFoodInput" name="Món_Ăn_Khác" placeholder="Nhập món bạn thích vào đây...">
+            <input type="text" id="otherFoodInput" name="Mon_An_Khác" placeholder="Nhập món bạn thích vào đây...">
         </div>
 
-        <button type="submit" class="submit-btn" id="submitBtn">GỬI NGAY! 🚀</button>
-        <button type="button" class="clear-all-btn" onclick="clearAll()">Xóa sạch danh sách 🗑️ chỉ dành cho admin Lượng</button>
+        <div class="form-group">
+            <label>Thời gian nào thì đi được?</label>
+            <input type="datetime-local" name="Thoi_Gian" id="partyTime">
+        </div>
+
+        <div class="form-group">
+            <label>Lời nhắn cho admin Lượng (Dị ứng, góp ý...):</label>
+            <textarea name="Ghi_Chu" id="note" placeholder="Ví dụ: Tớ không ăn được cay, tớ đi muộn 15p..."></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">GỬI NGAY CHO LƯỢNG! 🚀</button>
+        <button type="button" class="clear-all-btn" onclick="clearAll()">Xóa sạch danh sách hiển thị 🗑️</button>
     </form>
 
     <div class="result-section">
-        <h3>✨ Danh sách đồng bọn ✨</h3>
+        <h3>✨ Danh sách vừa đăng ký ✨</h3>
         <table id="resultTable">
             <thead>
                 <tr>
@@ -132,22 +99,17 @@
     </div>
 
     <div class="footer-imgs">
-        <img src="ko3.jpg" alt="ko3" style="animation: wiggle 3s infinite;">
-        <img src="ko4.jpg" alt="ko4" style="animation: pointing 1s infinite;">
-        <img src="ko5.jpg" alt="ko5" style="animation: wiggle 2.5s infinite;">
+        <img src="ko3.jpg" style="animation: wiggle 3s infinite;">
+        <img src="ko4.jpg" style="animation: pointing 1s infinite;">
+        <img src="ko5.jpg" style="animation: wiggle 2.5s infinite;">
     </div>
 </div>
 
 <script>
     function checkFood(select) {
         const otherInput = document.getElementById('otherFoodInput');
-        if (select.value === 'khac') {
-            otherInput.style.display = 'block';
-            otherInput.required = true;
-        } else {
-            otherInput.style.display = 'none';
-            otherInput.required = false;
-        }
+        otherInput.style.display = (select.value === 'khac') ? 'block' : 'none';
+        otherInput.required = (select.value === 'khac');
     }
 
     const form = document.getElementById('partyForm');
@@ -168,7 +130,7 @@
     }
 
     function deleteItem(index) {
-        if(confirm("Bạn muốn xóa dòng này hả?")) {
+        if(confirm("Xóa dòng này khỏi màn hình máy bạn?")) {
             let list = JSON.parse(localStorage.getItem('surveyData')) || [];
             list.splice(index, 1);
             localStorage.setItem('surveyData', JSON.stringify(list));
@@ -177,7 +139,7 @@
     }
 
     function clearAll() {
-        if(confirm("Cẩn thận nha! Bạn định xóa sạch sành sanh danh sách luôn hả?")) {
+        if(confirm("Xóa sạch danh sách đang hiện? (Không mất dữ liệu trong mail Lượng)")) {
             localStorage.removeItem('surveyData');
             displayData();
         }
@@ -185,13 +147,9 @@
 
     displayData();
 
-    // Xử lý khi nhấn Submit
     form.addEventListener('submit', function(e) {
-        // Lưu dữ liệu vào LocalStorage trước khi form gửi đi
         let foodChoice = document.getElementById('foodType').value;
-        if (foodChoice === 'khac') {
-            foodChoice = document.getElementById('otherFoodInput').value;
-        }
+        if (foodChoice === 'khac') foodChoice = document.getElementById('otherFoodInput').value;
 
         const newData = {
             fullname: document.getElementById('fullname').value,
@@ -202,10 +160,7 @@
         let list = JSON.parse(localStorage.getItem('surveyData')) || [];
         list.push(newData);
         localStorage.setItem('surveyData', JSON.stringify(list));
-        
-        // Không dùng e.preventDefault() để Formspree tự động xử lý việc gửi mail và chuyển trang
     });
 </script>
-
 </body>
 </html>
